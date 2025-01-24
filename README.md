@@ -27,3 +27,12 @@ cargo watch -q -c -w src/ -x "run"
 # Terminal 2 - To run the quick_dev.
 cargo watch -q -c -w examples/ -x "run --example quick_dev"
 ```
+
+
+## Test
+
+```sh
+# Turn of the server & quick_dev
+cargo watch -q -c -x "test test_create_ok -- --nocapture"
+
+```
