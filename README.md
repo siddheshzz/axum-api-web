@@ -36,3 +36,20 @@ cargo watch -q -c -w examples/ -x "run --example quick_dev"
 cargo watch -q -c -x "test test_create_ok -- --nocapture"
 
 ```
+
+
+
+
+## Misc
+```sh
+# list all the databases
+\l
+
+
+#select the database
+\c mydatabase
+
+
+#list all tables
+\dt
+```

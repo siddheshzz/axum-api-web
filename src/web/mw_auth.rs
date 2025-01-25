@@ -25,6 +25,17 @@ pub async fn mw_ctx_require<B>(
 	Ok(next.run(req).await)
 }
 
+/// Resolve the user context from the auth token in the cookie.
+///
+/// Resolve the user context from the auth token in the cookie and store it in the
+/// request extension. If something goes wrong, remove the cookie and store the
+/// error in the request extension.
+///
+/// The ModelManager is used to access the database.
+///
+/// Returns Ok when the context is resolved and the next handler is called with the
+/// new request.
+/// Returns Err when something went wrong and the next handler is not called.
 pub async fn mw_ctx_resolve<B>(
 	_mm: State<ModelManager>,
 	cookies: Cookies,
@@ -57,6 +68,9 @@ pub async fn mw_ctx_resolve<B>(
 impl<S: Send + Sync> FromRequestParts<S> for Ctx {
 	type Rejection = Error;
 
+	/// Extract the Ctx from the request extension. If the extension is missing,
+	/// return a CtxExtError::CtxNotInRequestExt error. If the extension is there,
+	/// but the Ctx is not inside, return a CtxExtError::CtxCreateFail error.
 	async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self> {
 		debug!(" {:<12} - Ctx", "EXTRACTOR");
 
