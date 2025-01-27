@@ -16,9 +16,8 @@ serde_with = "3"
 # -- Data
 # Note: we lock modql version during rcs
 modql = { version = "0.4.1", features = ["with-sea-query"]}
-sqlx = { version = "0.8", features = [ "macros", "runtime-tokio", "postgres", "uuid" ] }
-sea-query = "0.32"
-sea-query-binder = { version = "0.7", features = ["sqlx-postgres", "with-uuid", "with-time" ] }
+sqlx = { version = "0.7", features = [ "macros", "runtime-tokio", "postgres", "uuid" ] }
+sqlb = "0.4.0" # Optional
 
 
 # -- Web

@@ -1,8 +1,9 @@
 // region:    --- Modules
-
+mod base;
 mod error;
 mod store;
-mod task;
+pub mod task;
+
 
 use store::{new_db_pool, Db};
 

@@ -3,8 +3,9 @@ mod dev_db;
 
 use tokio::sync::OnceCell;
 use tracing::info;
+use crate::model::task::{Task, TaskBmc, TaskForCreate};
 
-use crate::model::ModelManager;
+use crate::{ctx::Ctx, model::{self, ModelManager}};
 //Initialize the environment for local development
 
 pub async fn init_dev(){
@@ -21,6 +22,7 @@ pub async fn init_dev(){
 
 
 pub async fn init_test() -> ModelManager {
+
 	static INIT: OnceCell<ModelManager> = OnceCell::const_new();
 
 	let mm = INIT
@@ -31,4 +33,15 @@ pub async fn init_test() -> ModelManager {
 		.await;
 
 	mm.clone()
+}
+
+pub async fn seed_tasks(ctx: &Ctx, mm: &ModelManager, titles: &[&str]) -> model::Result<Vec<Task>> {
+	let mut tasks = Vec::new();
+	for title in titles {
+		let id = TaskBmc::create(ctx, mm, TaskForCreate { title: title.to_string() }).await?;
+		// let task = TaskBmc::get(ctx, mm, id).await?;
+		
+		tasks.push(TaskBmc::get(ctx, mm, id).await?);
+	}
+	Ok(tasks)
 }
